@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+%centerall{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body{
+    position: absolute;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    font-family: 'Oswald', sans-serif;
+}

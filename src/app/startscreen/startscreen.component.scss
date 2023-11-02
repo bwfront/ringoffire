@@ -1,0 +1,19 @@
+
+@import '/src/styles.scss'; 
+.start-screen{
+    height: 100%;
+    width: 100%;
+    background-color: #404040;
+    @extend %centerall;
+    flex-direction: column;
+    h1{
+        font-size: 60px;
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+
+    img{
+        height: 200px;
+        width: 400px;
+    }
+}
