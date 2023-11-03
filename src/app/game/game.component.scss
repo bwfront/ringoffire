@@ -13,7 +13,7 @@
     position: relative;
     img{
         position: absolute;
-        width: 150px;
+        width: 120px;
     }
 }
 .top-card{
@@ -26,5 +26,22 @@
 
 .pick-card{
     transition: all 125ms ease-in-out;
-    transform: scale(1.3) !important;
+    animation: pick-card-animation 1s ease-in-out;
+    transform: scale(1.1) translateX(140px) translateY(-250px) rotate(16deg);
+}
+
+@keyframes pick-card-animation{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.2) rotate(5deg);;
+    }
+    100%{
+        transform: scale(1.1) translateX(140px) translateY(-250px) rotate(15deg);
+    }
+}
+
+.last-card{
+    transform: scale(1.1) translateX(140px) translateY(-250px) rotate(16deg);
 }
