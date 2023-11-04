@@ -45,3 +45,14 @@
 .last-card{
     transform: scale(1.1) translateX(140px) translateY(-250px) rotate(16deg);
 }
+
+.player-position{
+    position: absolute;
+    right: 0;
+}
+
+.button-add{
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+}
