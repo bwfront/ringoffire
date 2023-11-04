@@ -14,6 +14,8 @@ export class GameComponent implements OnInit {
   currentCard: string = '';
   playedCard: string[] = [];
   game: Game;
+  numberCurrentPlayer: number;
+  nameCurrentPlayer: string;
 
   constructor(public dialog: MatDialog) {}
 
@@ -23,6 +25,9 @@ export class GameComponent implements OnInit {
 
   takeCard() {
     if (!this.pickCardAnimation && this.game.stack.length > 0) {
+      this.game.currentPlayer++;
+      this.numberCurrentPlayer = this.game.currentPlayer % this.game.players.length;
+      this.getNameCurrentPlayer();
       this.currentCard = this.game.stack.pop();
       this.pickCardAnimation = true;
       setTimeout(() => {
@@ -32,6 +37,11 @@ export class GameComponent implements OnInit {
         this.pickCardAnimation = false;
       }, 1000);
     }
+  }
+
+  getNameCurrentPlayer(){
+    this.nameCurrentPlayer =  this.game.players[this.numberCurrentPlayer];
+    console.log(this.nameCurrentPlayer)
   }
 
   newGame() {

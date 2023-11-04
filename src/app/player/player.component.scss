@@ -1,20 +1,26 @@
 .player{
     display: flex;
     align-items: center;
-    padding: 0 50px 15px 20px;
+    padding: 0 50px 10px 20px;
     border-radius: 15px 0 0 15px;
     max-width: 200px;
     width: 200px;
+    max-height: 70px;
     span{
-        font-size: 32px;
+        font-size: 22px;
         margin-left: 16px;
     }
 
     background-color: #ffffffa2;
 
     img{
-        height: 100px;
-        width: 100px;
+        height: 60px;
+        width: 60px;
         object-fit: cover;
     }
+}
+
+.active-player{
+    color: #ffffff;
+    background-color: rgba(38, 153, 254, 0.662) !important;
 }
