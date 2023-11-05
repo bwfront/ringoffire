@@ -11,16 +11,14 @@ import { GameService } from '../firebase-services/game.services';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;
+
   lastCard = false;
-  currentCard: string = '';
   playedCard: string;
   game: Game;
   nameCurrentPlayer: string;
 
-  unsubGame;
-
-  gamearray = [];
+  unsubGame: any;
+  gameId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,31 +29,31 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     this.newGame();
     this.route.params.subscribe((params) => {
-      console.log(params['id']);
+      this.gameId = params['id'];
       this.unsubGame = this.gameService.subscribeToGame(
         params['id'],
         (gameData) => {
-          this.refreshGame(gameData);
+          this.refreshGameData(gameData);
         }
       );
     });
   }
 
   takeCard() {
-    if (!this.pickCardAnimation && this.game.stack.length > 0) {
+    if (!this.game.pickCardAnimation && this.game.stack.length > 0) {
+      this.game.currentCard = this.game.stack.pop();
+      this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
       this.game.currentPlayer =
-        this.game.currentPlayer % this.game.players.length;
+      this.game.currentPlayer % this.game.players.length;
+      this.updateGameData();
       this.getNameCurrentPlayer();
-      this.currentCard = this.game.stack.pop();
-      console.log(this.currentCard);
-
-      this.pickCardAnimation = true;
       setTimeout(() => {
         this.lastCard = true;
-        this.game.lastCards.push(this.currentCard);
-        this.playedCard = this.currentCard;
-        this.pickCardAnimation = false;
+        this.game.lastCards.push(this.game.currentCard);
+        this.game.playCard = this.game.currentCard;
+        this.game.pickCardAnimation = false;
+        this.updateGameData();
       }, 1000);
     }
   }
@@ -73,15 +71,23 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name) {
         this.game.players.push(name);
+        this.updateGameData();
       }
     });
   }
 
-  refreshGame(game: any) {
+  updateGameData(){
+    this.gameService.updateGame(this.gameId ,this.game.toJson());
+  }
+  
+
+  refreshGameData(game: any) {
     this.game.players = game.players;
     this.game.currentPlayer = game.currentPlayer;
     this.game.lastCards = game.lastCards;
     this.game.playCard = game.playCard;
     this.game.stack = game.stack;
+    this.game.currentCard = game.currentCard;
+    this.game.pickCardAnimation = game.pickCardAnimation;
   }
 }

@@ -13,7 +13,6 @@ export class StartscreenComponent {
   async newGame() {
    let test:string = await this.gameService.addNewGame();
    console.log(test);
-   
-    this.routuer.navigateByUrl('/game/' + test);
+  this.routuer.navigateByUrl('/game/' + test);
   }
 }

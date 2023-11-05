@@ -1,9 +1,11 @@
 export class Game {
   public players: string[] = [];
   public stack: string[] = [];
-  public playCard: string[] = [];
-  public currentPlayer: number = 0;
+  public playCard: string;
+  public currentPlayer: number;
   public lastCards: string[] = [];
+  public pickCardAnimation: boolean;
+  public currentCard: string = '';
 
   constructor() {
     for (let i = 1; i < 14; i++) {
@@ -20,9 +22,11 @@ export class Game {
     return {
       players: this.players,
       stack: this.stack,
-      playCard: this.playCard,
-      currentPlayer: this.currentPlayer,
-      lastCards: this.lastCards
+      playCard: this.playCard || '',
+      currentPlayer: this.currentPlayer || 0,
+      lastCards: this.lastCards,
+      currentCard: this.currentCard,
+      pickCardAnimation: this.pickCardAnimation || false,
     }
   }
 }

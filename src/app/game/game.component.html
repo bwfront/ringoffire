@@ -10,10 +10,10 @@
             src="assets/img/cards/card_cover.png">
         <img (click)="takeCard()" class="top-card" style="right: 23px" src="assets/img/cards/card_cover.png"
             alt="topcard">
-        <img *ngIf="lastCard" class="last-card" style="right: 23px" src="assets/img/cards/{{ playedCard }}.png"
+        <img *ngIf="game.playCard" class="last-card" style="right: 23px" src="assets/img/cards/{{ game.playCard }}.png"
             alt="topcard">
-        <img (click)="takeCard()" *ngIf="pickCardAnimation" class="pick-card" style="right: 23px"
-            src="assets/img/cards/{{ currentCard }}.png" alt="topcard">
+        <img (click)="takeCard()" *ngIf="game.pickCardAnimation" class="pick-card" style="right: 23px"
+            src="assets/img/cards/{{ game.currentCard }}.png" alt="topcard">
     </div>
 </div>
 
@@ -21,5 +21,5 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<app-game-info [card]="currentCard"
+<app-game-info [card]="game.currentCard"
  [name]="nameCurrentPlayer"></app-game-info>
