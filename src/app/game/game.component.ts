@@ -15,7 +15,6 @@ export class GameComponent implements OnInit {
   lastCard = false;
   playedCard: string;
   game: Game;
-  nameCurrentPlayer: string;
 
   unsubGame: any;
   gameId: string;
@@ -59,7 +58,8 @@ export class GameComponent implements OnInit {
   }
 
   getNameCurrentPlayer() {
-    this.nameCurrentPlayer = this.game.players[this.game.currentPlayer];
+    this.game.nameCurrentPlayer = this.game.players[this.game.currentPlayer];
+    this.updateGameData();
   }
 
   newGame() {
@@ -89,5 +89,6 @@ export class GameComponent implements OnInit {
     this.game.stack = game.stack;
     this.game.currentCard = game.currentCard;
     this.game.pickCardAnimation = game.pickCardAnimation;
+    this.game.nameCurrentPlayer = game.nameCurrentPlayer;
   }
 }
