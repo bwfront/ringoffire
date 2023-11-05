@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ringoffire-316b0": {
+      "hosting": {
+        "ringoffire": [
+          "ringoffire-316b0"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ringoffire-316b0"
+  }
+}

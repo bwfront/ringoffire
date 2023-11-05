@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Game } from 'src/models/game';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 @Component({
   selector: 'app-game',
@@ -16,20 +19,47 @@ export class GameComponent implements OnInit {
   game: Game;
   nameCurrentPlayer: string;
 
-  constructor(public dialog: MatDialog) {}
+  unsubGame;
+
+  gamearray = [];
+
+  firestore: Firestore = inject(Firestore);
+
+  constructor(public dialog: MatDialog) {
+    this.unsubGame = this.subGame();
+  }
+
+  ngOnDestroy() {
+    this.unsubGame();
+  }
+
+  subGame() {
+    return onSnapshot(this.getGameRef(), (list: any) => {
+      this.gamearray = [];
+      list.forEach((element: any) => {
+        console.log(element.data(), element.id);
+      });
+    });
+  }
+
+  getGameRef() {
+    return collection(this.firestore, 'games');
+  }
 
   ngOnInit(): void {
     this.game = new Game();
+    const aCollection = collection(this.firestore, 'games');
   }
 
   takeCard() {
     if (!this.pickCardAnimation && this.game.stack.length > 0) {
       this.game.currentPlayer++;
-      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      this.game.currentPlayer =
+        this.game.currentPlayer % this.game.players.length;
       this.getNameCurrentPlayer();
       this.currentCard = this.game.stack.pop();
       console.log(this.currentCard);
-      
+
       this.pickCardAnimation = true;
       setTimeout(() => {
         this.lastCard = true;
@@ -40,8 +70,8 @@ export class GameComponent implements OnInit {
     }
   }
 
-  getNameCurrentPlayer(){
-    this.nameCurrentPlayer =  this.game.players[this.game.currentPlayer];
+  getNameCurrentPlayer() {
+    this.nameCurrentPlayer = this.game.players[this.game.currentPlayer];
   }
 
   newGame() {
@@ -52,8 +82,8 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe((name: string) => {
-      if(name){
-        this.game.players.push(name)
+      if (name) {
+        this.game.players.push(name);
       }
     });
   }
