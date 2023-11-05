@@ -1,10 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Game } from 'src/models/game';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { ActivatedRoute } from '@angular/router';
+import { GameService } from '../firebase-services/game.services';
 
 @Component({
   selector: 'app-game',
@@ -23,32 +22,23 @@ export class GameComponent implements OnInit {
 
   gamearray = [];
 
-  firestore: Firestore = inject(Firestore);
-
-  constructor(public dialog: MatDialog) {
-    this.unsubGame = this.subGame();
-  }
-
-  ngOnDestroy() {
-    this.unsubGame();
-  }
-
-  subGame() {
-    return onSnapshot(this.getGameRef(), (list: any) => {
-      this.gamearray = [];
-      list.forEach((element: any) => {
-        console.log(element.data(), element.id);
-      });
-    });
-  }
-
-  getGameRef() {
-    return collection(this.firestore, 'games');
-  }
+  constructor(
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private gameService: GameService
+  ) {}
 
   ngOnInit(): void {
-    this.game = new Game();
-    const aCollection = collection(this.firestore, 'games');
+    this.newGame();
+    this.route.params.subscribe((params) => {
+      console.log(params['id']);
+      this.unsubGame = this.gameService.subscribeToGame(
+        params['id'],
+        (gameData) => {
+          this.refreshGame(gameData);
+        }
+      );
+    });
   }
 
   takeCard() {
@@ -80,11 +70,18 @@ export class GameComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name) {
         this.game.players.push(name);
       }
     });
+  }
+
+  refreshGame(game: any) {
+    this.game.players = game.players;
+    this.game.currentPlayer = game.currentPlayer;
+    this.game.lastCards = game.lastCards;
+    this.game.playCard = game.playCard;
+    this.game.stack = game.stack;
   }
 }
