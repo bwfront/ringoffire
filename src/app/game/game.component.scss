@@ -7,59 +7,83 @@
   background-size: cover;
   background-repeat: no-repeat;
   overflow-y: hidden !important;
+  overflow-x: hidden;
 }
 
-.card-stack{
-    position: relative;
-    img{
-        position: absolute;
-        width: 120px;
-    }
-}
-.top-card{
-    cursor: pointer;
-    transition: all 125ms ease-in-out;
-    &:hover{
-        transform: scale(1.03) translateY(-10px);
-    }
-}
-
-.pick-card{
-    transition: all 125ms ease-in-out;
-    animation: pick-card-animation 1s ease-in-out;
-    transform: scale(1.1) translateX(140px) translateY(-250px) rotate(16deg);
-}
-
-@keyframes pick-card-animation{
-    0%{
-        transform: scale(1);
-    }
-    50%{
-        transform: scale(1.2) rotate(5deg);;
-    }
-    100%{
-        transform: scale(1.1) translateX(140px) translateY(-250px) rotate(15deg);
-    }
-}
-
-.last-card{
-    transform: scale(1.1) translateX(140px) translateY(-250px) rotate(16deg);
-}
-
-.player-position{
+.card-stack {
+  position: relative;
+  img {
     position: absolute;
-    right: 0;
+    width: 120px;
+  }
+}
+.top-card {
+  cursor: pointer;
+  transition: all 125ms ease-in-out;
+  &:hover {
+    transform: scale(1.03) translateY(-10px);
+  }
 }
 
-.button-add{
-    position: absolute;
-    right: 50px;
+.pick-card {
+  transition: all 125ms ease-in-out;
+  animation: pick-card-animation 1s ease-in-out;
+  transform: scale(1.1) translateX(140px) translateY(-250px) rotate(16deg);
+}
+
+@keyframes pick-card-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2) rotate(5deg);
+  }
+  100% {
+    transform: scale(1.1) translateX(140px) translateY(-250px) rotate(15deg);
+  }
+}
+
+.last-card {
+  transform: scale(1.1) translateX(140px) translateY(-250px) rotate(16deg);
+}
+
+.player-position {
+  position: absolute;
+  right: 0;
+  z-index: 100;
+}
+
+.button-add {
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+}
+
+app-game-info {
+  left: 100px;
+  right: 150px;
+  bottom: 50px;
+  position: absolute;
+}
+
+@media (max-width: 500px) {
+  app-game-info {
     bottom: 50px;
+    left: 20px;
+    right: 20px;
+  }
+  .button-add {
+    position: absolute;
+    right: 20px;
+    bottom: 170px;
+  }
+  .player-position {
+    left: 0;
+  }
 }
 
-app-game-info{
-    left: 100px;
-    right: 150px;
-    bottom: 50px;
-    position: absolute;
-}
+@media (max-width: 985px) {
+    .player-position {
+      left: 0;
+    }
+  }

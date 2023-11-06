@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Game } from 'src/models/game';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
@@ -90,5 +90,19 @@ export class GameComponent implements OnInit {
     this.game.currentCard = game.currentCard;
     this.game.pickCardAnimation = game.pickCardAnimation;
     this.game.nameCurrentPlayer = game.nameCurrentPlayer;
+  }
+
+  calculateTop(index: number): number {
+    const baseTop = 100;
+    const increment = 90;
+    if (window.innerWidth <= 985) {
+      return 20 + index * 60;
+    } else {
+      return baseTop + index * increment;
+    }
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.calculateTop(event);
   }
 }
